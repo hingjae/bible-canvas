@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  bible-canvas-database:
+    container_name: bible-canvas-database
+    build:
+      dockerfile: Dockerfile
+      context: ./db
+    image: honey230/bible-canvas-db
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - TZ=${TZ}
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/init.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
