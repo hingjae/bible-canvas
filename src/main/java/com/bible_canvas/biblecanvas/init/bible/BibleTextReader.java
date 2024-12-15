@@ -1,5 +1,8 @@
 package com.bible_canvas.biblecanvas.init.bible;
 
+import com.bible_canvas.biblecanvas.bible.BibleVerse;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +15,11 @@ import java.util.regex.Pattern;
 /**
  * bible_utf8.txt 를 읽음
  */
+@Slf4j
 public class BibleTextReader {
+
+    private static final String REGEX = "^(\\S+?)(\\d+):(\\d+)\\s*(?:<(.*?)>)?\\s*(.*)$";
+
     public static String parseBible() {
         String bible = readBibleText();
         if (bible != null) {
@@ -43,23 +50,30 @@ public class BibleTextReader {
         return text.toString();
     }
 
-    public static void parseLine(String line) {
+    public static BibleVerse parseLine(String line) {
         // 정규식을 이용해 줄을 파싱
-        String regex = "^(\\S+?)(\\d+):(\\d+)\\s*(?:<(.*?)>)?\\s*(.*)$";
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(line);
 
         if (matcher.matches()) {
             String shortenTitle = matcher.group(1); // shorten_title
-            String chapter = matcher.group(2);     // 장
-            String verse = matcher.group(3);       // 절
+            int chapter = Integer.parseInt(matcher.group(2));     // 장
+            int verse = Integer.parseInt(matcher.group(3));       // 절
             String subtitle = matcher.group(4);    // 소제목 (null 가능)
             String content = matcher.group(5);     // 내용
 
-            System.out.printf("책 제목: %s / 장: %s / 절: %s / 소제목: %s / 내용: %s%n",
-                    shortenTitle, chapter, verse, subtitle != null ? subtitle : "없음", content);
+            log.info("책 제목: {} / 장: {} / 절: {} / 소제목: {} / 내용: {}", shortenTitle, chapter, verse, subtitle != null ? subtitle : "없음", content);
+
+            return BibleVerse.builder()
+                    .shortenTitle(shortenTitle)
+                    .chapter(chapter)
+                    .verse(verse)
+                    .subtitle(subtitle)
+                    .content(content)
+                    .build();
         } else {
-            System.out.println("Invalid line format: " + line);
+            log.info("Invalid line format: {}", line);
+            return null;
         }
     }
 }
