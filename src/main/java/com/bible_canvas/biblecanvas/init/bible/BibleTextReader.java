@@ -1,7 +1,9 @@
 package com.bible_canvas.biblecanvas.init.bible;
 
 import com.bible_canvas.biblecanvas.bible.BibleVerse;
+import com.bible_canvas.biblecanvas.init.exception.InvalidParseException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,27 +17,17 @@ import java.util.regex.Pattern;
 /**
  * bible_utf8.txt 를 읽음
  */
+@Component
 @Slf4j
 public class BibleTextReader {
 
-    private static final String REGEX = "^(\\S+?)(\\d+):(\\d+)\\s*(?:<(.*?)>)?\\s*(.*)$";
+    private static final String REGEX = "^(\\S+?)(\\d+):(\\d+)\\s*(.*)$";
 
-    public static String parseBible() {
-        String bible = readBibleText();
-        if (bible != null) {
-            String[] lines = bible.split("\n");
-            for (String line : lines) {
-                parseLine(line);
-            }
-        }
-        return null;
-    }
-
-    public static String readBibleText() {
+    public String readBibleText(String biblePath) {
         StringBuilder text = new StringBuilder();
         try {
             // 프로젝트 루트 경로로 파일 경로 설정
-            Path filePath = Paths.get("bible/bible_utf8.txt");
+            Path filePath = Paths.get(biblePath);
 
             // UTF-8로 파일 읽기
             try (BufferedReader reader = Files.newBufferedReader(filePath, StandardCharsets.UTF_8)) {
@@ -50,30 +42,43 @@ public class BibleTextReader {
         return text.toString();
     }
 
-    public static BibleVerse parseLine(String line) {
-        // 정규식을 이용해 줄을 파싱
+    public BibleVerse parseLine(String line) {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(line);
 
         if (matcher.matches()) {
-            String shortenTitle = matcher.group(1); // shorten_title
-            int chapter = Integer.parseInt(matcher.group(2));     // 장
-            int verse = Integer.parseInt(matcher.group(3));       // 절
-            String subtitle = matcher.group(4);    // 소제목 (null 가능)
-            String content = matcher.group(5);     // 내용
+            String shortenTitle = matcher.group(1); // 책 이름
+            int chapter = Integer.parseInt(matcher.group(2)); // 장
+            int verse = Integer.parseInt(matcher.group(3)); // 절
+            String rawContent = matcher.group(4).trim(); // 본문 (소제목 포함 가능)
 
-            log.info("책 제목: {} / 장: {} / 절: {} / 소제목: {} / 내용: {}", shortenTitle, chapter, verse, subtitle != null ? subtitle : "없음", content);
+            // 본문에서 소제목 추출
+            String subtitle = null;
+            String content = rawContent;
+
+            // 소제목이 있으면 추출
+            int subtitleStart = rawContent.indexOf('<');
+            int subtitleEnd = rawContent.indexOf('>');
+            if (subtitleStart != -1 && subtitleEnd != -1 && subtitleStart < subtitleEnd) {
+                subtitle = rawContent.substring(subtitleStart + 1, subtitleEnd).trim();
+                content = rawContent.substring(0, subtitleStart).trim()
+                        + " "
+                        + rawContent.substring(subtitleEnd + 1).trim();
+            }
+
+            log.info("책 제목: {} / 장: {} / 절: {} / 소제목: {} / 본문: {}",
+                    shortenTitle, chapter, verse, subtitle , content.trim());
 
             return BibleVerse.builder()
                     .shortenTitle(shortenTitle)
                     .chapter(chapter)
                     .verse(verse)
                     .subtitle(subtitle)
-                    .content(content)
+                    .content(content.trim())
                     .build();
-        } else {
-            log.info("Invalid line format: {}", line);
-            return null;
         }
+
+        log.warn("Invalid line format: {}", line);
+        throw new InvalidParseException();
     }
 }

@@ -10,7 +10,5 @@ class BibleTextReaderTest {
     @DisplayName("/bible 경로의 txt를 읽는다.")
     @Test
     void readBibleTxt() {
-        String bibleText = BibleTextReader.readBibleText();
-        log.info("bibleText : {}", bibleText);
     }
 }

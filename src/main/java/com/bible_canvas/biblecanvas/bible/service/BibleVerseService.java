@@ -1,0 +1,42 @@
+package com.bible_canvas.biblecanvas.bible.service;
+
+import com.bible_canvas.biblecanvas.bible.BibleVerse;
+import com.bible_canvas.biblecanvas.bible.repository.BibleVerseRepository;
+import com.bible_canvas.biblecanvas.init.bible.BibleTextReader;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@RequiredArgsConstructor
+@Service
+public class BibleVerseService {
+    private final BibleVerseRepository bibleVerseRepository;
+    private final BibleTextReader bibleTextReader;
+
+    private static final int BATCH_SIZE = 5000;
+
+    @Transactional
+    public void bibleInitSave(String bibleText) {
+        String[] lines = bibleText.split("\n");
+        List<BibleVerse> bibleVerses = new ArrayList<>();
+
+        for (String line : lines) {
+            BibleVerse bibleVerse = bibleTextReader.parseLine(line);
+            if (bibleVerse != null) {
+                bibleVerses.add(bibleVerse);
+            }
+
+            if (bibleVerses.size() == BATCH_SIZE) {
+                bibleVerseRepository.saveAll(bibleVerses);
+                bibleVerses.clear();
+            }
+        }
+
+        if (!bibleVerses.isEmpty()) {
+            bibleVerseRepository.saveAll(bibleVerses);
+        }
+    }
+}
