@@ -13,3 +13,5 @@ spring:
 logging:
   level:
     org.hibernate.SQL: trace
+bible:
+  init-data: ${BIBLE_INIT_DATA}
