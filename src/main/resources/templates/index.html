@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible App Home</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-5">
+    <!-- Header -->
+    <header class="text-center mb-4">
+        <h1 class="fw-bold">Bible App</h1>
+        <p class="text-muted">Explore the Word of God</p>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="mb-4">
+        <form class="d-flex" action="/search" method="GET">
+            <input class="form-control me-2" type="search" placeholder="Search by book, chapter, or keyword" aria-label="Search">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Recent Verses -->
+    <section class="mb-4">
+        <h2 class="h5">Recent Verses</h2>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Genesis 1:1 - "In the beginning, God created the heavens and the earth."
+                <button class="btn btn-sm btn-outline-primary">View</button>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                John 3:16 - "For God so loved the world..."
+                <button class="btn btn-sm btn-outline-primary">View</button>
+            </li>
+        </ul>
+    </section>
+
+    <!-- Favorites Section -->
+    <section class="mb-4">
+        <h2 class="h5">Favorites</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Psalm 23:1</h5>
+                        <p class="card-text">"The Lord is my shepherd; I shall not want."</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">View</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Proverbs 3:5</h5>
+                        <p class="card-text">"Trust in the Lord with all your heart..."</p>
+                        <a href="#" class="btn btn-outline-primary btn-sm">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bible Table of Contents -->
+    <section>
+        <h2 class="h5">Bible Table of Contents</h2>
+        <div class="row">
+            <!-- Old Testament -->
+            <div class="col-md-6">
+                <h3 class="h6">Old Testament</h3>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="/bible/genesis">Genesis</a></li>
+                    <li class="list-group-item"><a href="/bible/exodus">Exodus</a></li>
+                    <li class="list-group-item"><a href="/bible/leviticus">Leviticus</a></li>
+                    <!-- Add more books here -->
+                </ul>
+            </div>
+            <!-- New Testament -->
+            <div class="col-md-6">
+                <h3 class="h6">New Testament</h3>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href="/bible/matthew">Matthew</a></li>
+                    <li class="list-group-item"><a href="/bible/mark">Mark</a></li>
+                    <li class="list-group-item"><a href="/bible/luke">Luke</a></li>
+                    <!-- Add more books here -->
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

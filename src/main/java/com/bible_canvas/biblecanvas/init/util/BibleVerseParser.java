@@ -1,48 +1,17 @@
-package com.bible_canvas.biblecanvas.init.bible;
+package com.bible_canvas.biblecanvas.init.util;
 
 import com.bible_canvas.biblecanvas.bible.BibleVerse;
 import com.bible_canvas.biblecanvas.init.exception.InvalidParseException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * bible_utf8.txt 를 읽음
- */
-@Component
 @Slf4j
-public class BibleTextReader {
-
+public class BibleVerseParser {
     private static final String REGEX = "^(\\S+?)(\\d+):(\\d+)\\s*(.*)$";
 
-    public String readBibleText(String biblePath) {
-        StringBuilder text = new StringBuilder();
-        try {
-            // 프로젝트 루트 경로로 파일 경로 설정
-            Path filePath = Paths.get(biblePath);
-
-            // UTF-8로 파일 읽기
-            try (BufferedReader reader = Files.newBufferedReader(filePath, StandardCharsets.UTF_8)) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    text.append(line).append("\n");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace(); // 에러 처리
-        }
-        return text.toString();
-    }
-
-    public BibleVerse parseLine(String line) {
+    public static BibleVerse parse(String line) {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(line);
 
@@ -65,9 +34,6 @@ public class BibleTextReader {
                         + " "
                         + rawContent.substring(subtitleEnd + 1).trim();
             }
-
-            log.info("책 제목: {} / 장: {} / 절: {} / 소제목: {} / 본문: {}",
-                    shortenTitle, chapter, verse, subtitle , content.trim());
 
             return BibleVerse.builder()
                     .shortenTitle(shortenTitle)
