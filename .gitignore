@@ -38,4 +38,6 @@ out/
 /bible
 .env
 src/main/resources/static/css/bootstrap.min.css
+src/main/resources/static/css/bootstrap.css
 src/main/resources/static/js/bootstrap.min.js
+src/main/resources/static/js/bootstrap.js
