@@ -37,3 +37,5 @@ out/
 .vscode/
 /bible
 .env
+src/main/resources/static/css/bootstrap.min.css
+src/main/resources/static/js/bootstrap.min.js
