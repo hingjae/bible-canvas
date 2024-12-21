@@ -1,9 +1,12 @@
 package com.bible_canvas.biblecanvas.bible.service;
 
 import com.bible_canvas.biblecanvas.bible.BibleVerse;
+import com.bible_canvas.biblecanvas.bible.controller.response.BibleVerseResponse;
 import com.bible_canvas.biblecanvas.bible.repository.BibleVerseRepository;
 import com.bible_canvas.biblecanvas.init.bible.BibleReader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,5 +39,10 @@ public class BibleVerseService {
         if (!bibleVerses.isEmpty()) {
             bibleVerseRepository.saveAll(bibleVerses);
         }
+    }
+
+    public Page<BibleVerseResponse> searchByContent(String keyword, Pageable pageable) {
+        return bibleVerseRepository.findByContentContaining(keyword, pageable)
+                .map(BibleVerseResponse::new);
     }
 }
