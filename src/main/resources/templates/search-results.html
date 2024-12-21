@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-5">
+    <!-- Header -->
+    <header class="text-center mb-4">
+        <h1 class="fw-bold">Search Results</h1>
+        <p class="text-muted">Results for keyword: <span th:text="${keyword}"></span></p>
+        <a href="/" class="btn btn-outline-secondary btn-sm">Back to Home</a>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="mb-4">
+        <form class="d-flex" action="/bible-verse/search" method="GET">
+            <input class="form-control me-2" type="search" name="keyword" placeholder="Search again"
+                   th:value="${keyword}" aria-label="Search">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Search Results -->
+    <section>
+        <!-- Display total results and current page -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <span th:text="'Total Results: ' + ${results.totalElements}"></span>
+            </div>
+            <div>
+                <span th:text="'Page ' + (${results.number + 1}) + ' of ' + ${results.totalPages}"></span>
+            </div>
+        </div>
+
+        <div th:if="${results.empty}" class="alert alert-warning">
+            No results found for "<span th:text="${keyword}"></span>". Please try a different keyword.
+        </div>
+        <div th:if="${!results.empty}" class="list-group">
+            <a th:each="verse : ${results.content}"
+               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center clickable-li"
+               th:href="@{/bible-verses/{id} (id=${verse.id})}">
+                <div class="d-flex flex-column text-truncate">
+                    <span class="font-weight-bold text-dark" th:text="${verse.shortenTitle} + ' ' + ${verse.chapter} + ':' + ${verse.verse}"></span>
+                    <span class="text-muted" th:text="${verse.content}"></span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Pagination -->
+        <nav th:if="${results.totalPages > 1}" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${results.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/bible-verse/search(keyword=${keyword},page=0)}" aria-label="First">
+                        <span aria-hidden="true"><<</span>
+                    </a>
+                </li>
+
+                <!-- Previous Page Link -->
+                <li class="page-item" th:classappend="${results.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/bible-verse/search(keyword=${keyword},page=${results.number - 1})}"
+                       aria-label="Previous">
+                        <span aria-hidden="true"><</span>
+                    </a>
+                </li>
+
+                <!-- Page Number Grouping -->
+                <!-- Compute the start of the page group (i.e., multiples of 10) -->
+                <li th:each="pageNum : ${#numbers.sequence(0, results.totalPages - 1)}"
+                    th:if="${pageNum / 10 == results.number / 10}"
+                    th:classappend="${pageNum == results.number} ? 'active'">
+                    <a class="page-link" th:href="@{/bible-verse/search(keyword=${keyword},page=${pageNum})}"
+                       th:text="${pageNum + 1}"></a>
+                </li>
+
+                <!-- Next Page Link -->
+                <li class="page-item" th:classappend="${results.last} ? 'disabled'">
+                    <a class="page-link" th:href="@{/bible-verse/search(keyword=${keyword},page=${results.number + 1})}"
+                       aria-label="Next">
+                        <span aria-hidden="true">></span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:classappend="${results.last} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/bible-verse/search(keyword=${keyword},page=${results.totalPages - 1})}"
+                       aria-label="Last">
+                        <span aria-hidden="true">>></span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+</div>
+
+<script src="/js/bootstrap.js"></script>
+<script>
+    document.querySelectorAll('.clickable-li').forEach(function (item) {
+        item.addEventListener('click', function () {
+            const verseId = item.getAttribute('data-id');
+            window.location.href = '/bible-verse/view/' + verseId;
+        });
+    });
+</script>
+</script>
+</body>
+</html>
