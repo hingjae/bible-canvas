@@ -7,14 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(
-        name = "bible_verse",
-        indexes = {
-                @Index(name = "idx_shorten_title", columnList = "shorten_title"),
-                @Index(name = "idx_chapter_verse", columnList = "chapter, verse"),
-                @Index(name = "idx_content", columnList = "content(255)")
-        }
-)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BibleVerse {
