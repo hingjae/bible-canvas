@@ -56,7 +56,65 @@ class BibleControllerTest extends IntegrationTest {
     }
 
     @Test
-    void 키워드는_두글자_이상이어야한다() {
+    void 키워드는_두글자_이상이어야한다() throws Exception {
+        init();
 
+        String keyword = "하";
+        String page = "0";
+        String size = "5";
+
+        Page<BibleVerseResponse> results = bibleVerseService.searchByContent(
+                keyword, PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));
+
+        mockMvc.perform(get("/bible-verse/search")
+                        .queryParam("keyword", keyword)
+                        .param("page", page)
+                        .param("size", size)
+                ).andExpect(status().isOk())
+                .andExpect(view().name("search-results"))
+                .andExpect(model().attribute("keyword", keyword))
+                .andExpect(model().attribute("results", Page.empty()));
+    }
+
+    @Test
+    void 키워드는_공백일수없다() throws Exception {
+        init();
+
+        String keyword = "";
+        String page = "0";
+        String size = "5";
+
+        Page<BibleVerseResponse> results = bibleVerseService.searchByContent(
+                keyword, PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));
+
+        mockMvc.perform(get("/bible-verse/search")
+                        .queryParam("keyword", keyword)
+                        .param("page", page)
+                        .param("size", size)
+                ).andExpect(status().isOk())
+                .andExpect(view().name("search-results"))
+                .andExpect(model().attribute("keyword", keyword))
+                .andExpect(model().attribute("results", Page.empty()));
+    }
+
+    @Test
+    void 키워드는_null일수없다() throws Exception {
+        init();
+
+        String keyword = null;
+        String page = "0";
+        String size = "5";
+
+        Page<BibleVerseResponse> results = bibleVerseService.searchByContent(
+                keyword, PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)));
+
+        mockMvc.perform(get("/bible-verse/search")
+                        .queryParam("keyword", keyword)
+                        .param("page", page)
+                        .param("size", size)
+                ).andExpect(status().isOk())
+                .andExpect(view().name("search-results"))
+                .andExpect(model().attribute("keyword", keyword))
+                .andExpect(model().attribute("results", Page.empty()));
     }
 }
