@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'NotoSans';
+    src: url('/fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NotoSerif';
+    src: url('/fonts/NotoSerifKR-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumMyeongjo';
+    src: url('/fonts/NanumMyeongjo-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumGothic';
+    src: url('/fonts/NanumGothic-Regular.ttf') format('truetype');
+}
+
+body {
+    font-family: 'NotoSans', Arial, sans-serif;
+}
+
+.noto-sans-font {
+    font-family: 'NotoSans', serif;
+}
+
+.noto-serif-font {
+    font-family: 'NotoSerif', serif;
+}
+
+.nanum-myeongjo {
+    font-family: 'NanumMyeongjo', serif;
+}
+
+.nanum-gothic {
+    font-family: 'NanumGothic', serif;
+}

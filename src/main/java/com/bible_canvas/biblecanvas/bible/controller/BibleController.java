@@ -24,7 +24,7 @@ public class BibleController {
     private final BibleVerseService bibleVerseService;
 
     @GetMapping("/search")
-    public String searchByContent(@ModelAttribute @Valid BibleSearchRequest request, BindingResult bindingResult, Pageable pageable, Model model) {
+    public String searchByContent(@ModelAttribute("bibleSearchRequest") @Valid BibleSearchRequest request, BindingResult bindingResult, Pageable pageable, Model model) {
 
         String keyword = request.getKeyword();
 
