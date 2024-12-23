@@ -1,7 +1,6 @@
 package com.bible_canvas.biblecanvas.init.util;
 
-import com.bible_canvas.biblecanvas.bible.BibleVerse;
-import com.bible_canvas.biblecanvas.init.factory.BibleVerseFactory;
+import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

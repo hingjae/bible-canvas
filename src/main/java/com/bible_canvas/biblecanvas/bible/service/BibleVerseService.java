@@ -1,6 +1,6 @@
 package com.bible_canvas.biblecanvas.bible.service;
 
-import com.bible_canvas.biblecanvas.bible.BibleVerse;
+import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import com.bible_canvas.biblecanvas.bible.controller.response.BibleVerseResponse;
 import com.bible_canvas.biblecanvas.bible.repository.BibleVerseRepository;
 import com.bible_canvas.biblecanvas.init.bible.BibleReader;

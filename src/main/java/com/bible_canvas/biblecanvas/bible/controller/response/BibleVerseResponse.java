@@ -1,6 +1,6 @@
 package com.bible_canvas.biblecanvas.bible.controller.response;
 
-import com.bible_canvas.biblecanvas.bible.BibleVerse;
+import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import lombok.Getter;
 
 @Getter

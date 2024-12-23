@@ -1,4 +1,4 @@
-package com.bible_canvas.biblecanvas.bible;
+package com.bible_canvas.biblecanvas.bible.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

@@ -1,7 +1,7 @@
 package com.bible_canvas.biblecanvas.bible.controller;
 
 import com.bible_canvas.biblecanvas.IntegrationTest;
-import com.bible_canvas.biblecanvas.bible.BibleVerse;
+import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import com.bible_canvas.biblecanvas.bible.controller.response.BibleVerseResponse;
 import com.bible_canvas.biblecanvas.bible.repository.BibleVerseRepository;
 import com.bible_canvas.biblecanvas.bible.service.BibleVerseService;

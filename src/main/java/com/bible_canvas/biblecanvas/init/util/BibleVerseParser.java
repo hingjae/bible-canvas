@@ -1,6 +1,6 @@
 package com.bible_canvas.biblecanvas.init.util;
 
-import com.bible_canvas.biblecanvas.bible.BibleVerse;
+import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import com.bible_canvas.biblecanvas.init.exception.InvalidParseException;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,7 +1,7 @@
 package com.bible_canvas.biblecanvas.bible.repository;
 
 import com.bible_canvas.biblecanvas.IntegrationTest;
-import com.bible_canvas.biblecanvas.bible.BibleVerse;
+import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import com.bible_canvas.biblecanvas.init.factory.BibleVerseFactory;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.AfterEach;
