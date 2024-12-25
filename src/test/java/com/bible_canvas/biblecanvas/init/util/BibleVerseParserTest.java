@@ -1,11 +1,13 @@
 package com.bible_canvas.biblecanvas.init.util;
 
+import com.bible_canvas.biblecanvas.IntegrationTest;
 import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Stream;
 
@@ -13,16 +15,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @Slf4j
-class BibleVerseParserTest {
+class BibleVerseParserTest extends IntegrationTest {
+
+    @Autowired
+    BibleVerseParser bibleVerseParser;
 
     @Test
     void bibleParseTest() {
         String line = "왕하13:23 여호와께서 아브라함과 이삭과 야곱과 더불어 세우신 언약 때문에 이스라엘에게 은혜를 베풀며 그들을 불쌍히 여기시며 돌보사 멸하기를 즐겨하지 아니하시고 이 때까지 자기 앞에서 쫓아내지 아니하셨더라";
 
-        BibleVerse bibleVerse = BibleVerseParser.parse(line);
+        BibleVerse bibleVerse = bibleVerseParser.parse(line);
 
         log.info("BibleVerseFactory.of(\"{}\", {}, {}, {}, \"{}\")"
-                , bibleVerse.getShortenTitle(),
+                , bibleVerse.getBibleTitle().getShortenTitle(),
                 bibleVerse.getChapter(),
                 bibleVerse.getVerse(),
                 bibleVerse.getSubtitle() != null ? "\"" + bibleVerse.getSubtitle() + "\"" : "null",
@@ -32,9 +37,9 @@ class BibleVerseParserTest {
     @ParameterizedTest
     @MethodSource("bibleLinesAndResult")
     void bibleParseText(String line, String title, int chapter, int verse, String subtitle, String content) {
-        BibleVerse bibleVerse = BibleVerseParser.parse(line);
+        BibleVerse bibleVerse = bibleVerseParser.parse(line);
 
-        assertThat(bibleVerse.getShortenTitle()).isEqualTo(title);
+        assertThat(bibleVerse.getBibleTitle().getShortenTitle()).isEqualTo(title);
         assertThat(bibleVerse.getChapter()).isEqualTo(chapter);
         assertThat(bibleVerse.getVerse()).isEqualTo(verse);
         assertThat(bibleVerse.getSubtitle()).isEqualTo(subtitle);
