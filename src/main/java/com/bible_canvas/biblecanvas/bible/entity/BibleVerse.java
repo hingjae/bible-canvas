@@ -15,7 +15,9 @@ public class BibleVerse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String shortenTitle;
+    @JoinColumn(name = "bible_title_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private BibleTitle bibleTitle;
 
     private int chapter;
 
@@ -27,12 +29,15 @@ public class BibleVerse {
     private String content;
 
     @Builder
-    public BibleVerse(Long id, String shortenTitle, int chapter, int verse, String subtitle, String content) {
-        this.id = id;
-        this.shortenTitle = shortenTitle;
+    public BibleVerse(BibleTitle bibleTitle, int chapter, int verse, String subtitle, String content) {
+        this.bibleTitle = bibleTitle;
         this.chapter = chapter;
         this.verse = verse;
         this.subtitle = subtitle;
         this.content = content;
+    }
+
+    public String getShortenTitle() {
+        return bibleTitle.getShortenTitle();
     }
 }
