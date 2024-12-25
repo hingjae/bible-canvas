@@ -14,5 +14,8 @@ public interface BibleVerseRepository extends JpaRepository<BibleVerse, Long> {
     @Query(value = "ALTER TABLE bible_verse AUTO_INCREMENT = 1", nativeQuery = true)
     void resetAutoIncrement();
 
+    @Query("SELECT bv FROM BibleVerse bv " +
+            "JOIN FETCH bv.bibleTitle bt " +  // BibleTitle과의 페치 조인
+            "WHERE bv.content LIKE %:keyword%")
     Page<BibleVerse> findByContentContaining(String keyword, Pageable pageable);
 }
