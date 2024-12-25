@@ -1,5 +1,6 @@
 package com.bible_canvas.biblecanvas.init.factory;
 
+import com.bible_canvas.biblecanvas.bible.entity.BibleTitle;
 import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public class BibleVerseFactory {
     public static BibleVerse of(String shortenTitle, int chapter, int verse, String subTitle, String content) {
         return BibleVerse.builder()
-                .shortenTitle(shortenTitle)
+                .bibleTitle(BibleTitle.of(null, shortenTitle))
                 .chapter(chapter)
                 .verse(verse)
                 .subtitle(subTitle)
@@ -17,6 +18,7 @@ public class BibleVerseFactory {
 
     public static List<BibleVerse> mockBibleVerses() {
 
+        // TODO BibleTitle 조회해서 넣는게 필요함.
         return List.of(
                 BibleVerseFactory.of("창", 1, 1, "천지 창조", "태초에 하나님이 천지를 창조하시니라"),
                 BibleVerseFactory.of("고전", 1, 18, "하나님의 능력과 지혜이신 그리스도", "십자가의 도가 멸망하는 자들에게는 미련한 것이요 구원을 받는 우리에게는 하나님의 능력이라"),
