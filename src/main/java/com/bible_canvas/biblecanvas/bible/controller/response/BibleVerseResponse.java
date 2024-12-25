@@ -7,7 +7,7 @@ import lombok.Getter;
 public class BibleVerseResponse {
     private final Long id;
 
-    private final String shortenTitle;
+    private final String title;
 
     private final int chapter;
 
@@ -19,7 +19,7 @@ public class BibleVerseResponse {
 
     public BibleVerseResponse(BibleVerse entity) {
         this.id = entity.getId();
-        this.shortenTitle = entity.getShortenTitle();
+        this.title = entity.getBibleTitle().getTitle();
         this.chapter = entity.getChapter();
         this.verse = entity.getVerse();
         this.subtitle = entity.getSubtitle();
