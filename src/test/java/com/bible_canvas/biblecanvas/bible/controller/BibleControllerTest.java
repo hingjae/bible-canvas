@@ -1,11 +1,15 @@
 package com.bible_canvas.biblecanvas.bible.controller;
 
 import com.bible_canvas.biblecanvas.IntegrationTest;
+import com.bible_canvas.biblecanvas.bible.entity.BibleTitle;
 import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import com.bible_canvas.biblecanvas.bible.controller.response.BibleVerseResponse;
+import com.bible_canvas.biblecanvas.bible.repository.BibleTitleRepository;
 import com.bible_canvas.biblecanvas.bible.repository.BibleVerseRepository;
 import com.bible_canvas.biblecanvas.bible.service.BibleVerseService;
+import com.bible_canvas.biblecanvas.init.TestInitData;
 import com.bible_canvas.biblecanvas.init.factory.BibleVerseFactory;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +27,26 @@ class BibleControllerTest extends IntegrationTest {
     BibleVerseRepository bibleVerseRepository;
     @Autowired
     BibleVerseService bibleVerseService;
+    @Autowired
+    BibleTitleRepository bibleTitleRepository;
 
     private void init() {
         List<BibleVerse> bibleVerses = BibleVerseFactory.mockBibleVerses();
-        bibleVerseRepository.saveAll(bibleVerses);
+
+        List<BibleVerse> bibleVersesSetBibleTitle = bibleVerses.stream()
+                .map(bibleVerse -> {
+                    BibleTitle bibleTitle = TestInitData.bibleShortenTitleMap.get(bibleVerse.getShortenTitle());
+
+                    return BibleVerse.builder()
+                            .bibleTitle(bibleTitle)
+                            .chapter(bibleVerse.getChapter())
+                            .verse(bibleVerse.getVerse())
+                            .subtitle(bibleVerse.getSubtitle())
+                            .content(bibleVerse.getContent())
+                            .build();
+                })
+                .toList();
+        bibleVerseRepository.saveAll(bibleVersesSetBibleTitle);
     }
 
     @AfterEach

@@ -1,8 +1,11 @@
 package com.bible_canvas.biblecanvas.bible.repository;
 
 import com.bible_canvas.biblecanvas.IntegrationTest;
+import com.bible_canvas.biblecanvas.bible.entity.BibleTitle;
 import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
+import com.bible_canvas.biblecanvas.init.TestInitData;
 import com.bible_canvas.biblecanvas.init.factory.BibleVerseFactory;
+import jakarta.persistence.EntityNotFoundException;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,11 +23,28 @@ class BibleVerseRepositoryTest extends IntegrationTest {
 
     @Autowired
     BibleVerseRepository bibleVerseRepository;
+    @Autowired
+    BibleTitleRepository bibleTitleRepository;
 
     @BeforeEach
     void 성경초기데이터() {
         List<BibleVerse> bibleVerses = BibleVerseFactory.mockBibleVerses();
-        bibleVerseRepository.saveAll(bibleVerses);
+
+        List<BibleVerse> bibleVersesSetBibleTitle = bibleVerses.stream()
+                .map(bibleVerse -> {
+                    BibleTitle bibleTitle = TestInitData.bibleShortenTitleMap.get(bibleVerse.getShortenTitle());
+
+                    return BibleVerse.builder()
+                            .bibleTitle(bibleTitle)
+                            .chapter(bibleVerse.getChapter())
+                            .verse(bibleVerse.getVerse())
+                            .subtitle(bibleVerse.getSubtitle())
+                            .content(bibleVerse.getContent())
+                            .build();
+                })
+                .toList();
+
+        bibleVerseRepository.saveAll(bibleVersesSetBibleTitle);
     }
 
     @AfterEach
