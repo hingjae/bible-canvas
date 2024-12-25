@@ -48,7 +48,7 @@
                th:href="@{/bible-verses/{id} (id=${verse.id})}">
                 <div class="d-flex flex-column">
                     <span class="font-weight-bold text-dark highlightable-keyword"
-                          th:text="${verse.shortenTitle} + ' ' + ${verse.chapter} + ':' + ${verse.verse}"></span>
+                          th:text="${verse.title} + ' ' + ${verse.chapter} + ':' + ${verse.verse}"></span>
                     <span class="text-muted fs-5 highlightable-keyword" th:text="${verse.content}"></span>
                 </div>
             </a>
