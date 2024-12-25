@@ -6,7 +6,9 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @TestConfiguration
 public class TestInitData {
@@ -14,12 +16,16 @@ public class TestInitData {
     @Autowired
     BibleTitleRepository bibleTitleRepository;
 
+    public final static Map<String, BibleTitle> bibleShortenTitleMap = new HashMap<>();
+
     @PostConstruct
     public void initBibleTitle() {
         bibleTitleRepository.deleteAllInBatch();
         bibleTitleRepository.resetAutoIncrement();
 
         bibleTitleRepository.saveAll(getBibleTitles());
+        bibleTitleRepository.findAll()
+                .forEach(bibleTitle -> bibleShortenTitleMap.put(bibleTitle.getShortenTitle(), bibleTitle));
     }
 
     private List<BibleTitle> getBibleTitles() {
