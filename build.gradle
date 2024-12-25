@@ -44,6 +44,10 @@ dependencies {
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:mysql'
 
+	// EHCache
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation 'org.ehcache:ehcache:3.10.8'
+
 }
 
 tasks.named('test') {

@@ -33,9 +33,14 @@ public class BibleInitService implements CommandLineRunner {
             log.info("Init Bible Data..........");
             String bibleText = bibleReader.readBibleTextFile(BIBLE_PATH);
 
+            long startTime = System.nanoTime(); // 시작 시간 기록
+
             bibleVerseService.bibleInitSave(bibleText);
 
-            log.info("Bible verses saved successfully.");
+            long endTime = System.nanoTime(); // 종료 시간 기록
+            long durationInMillis = (endTime - startTime) / 1_000_000; // 나노초를 밀리초로 변환
+
+            log.info("Bible verses saved successfully in {} ms.", durationInMillis);
         } else {
             log.info("initData false");
         }
