@@ -4,6 +4,7 @@ import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import com.bible_canvas.biblecanvas.bible.controller.response.BibleVerseResponse;
 import com.bible_canvas.biblecanvas.bible.repository.BibleVerseRepository;
 import com.bible_canvas.biblecanvas.init.bible.BibleReader;
+import com.bible_canvas.biblecanvas.init.util.BibleVerseParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ import java.util.List;
 @Service
 public class BibleVerseService {
     private final BibleVerseRepository bibleVerseRepository;
-    private final BibleReader bibleReader;
+    private final BibleVerseParser bibleVerseParser;
 
     private static final int BATCH_SIZE = 5000;
 
@@ -27,7 +28,7 @@ public class BibleVerseService {
         List<BibleVerse> bibleVerses = new ArrayList<>();
 
         for (String line : lines) {
-            BibleVerse bibleVerse = bibleReader.parseLine(line);
+            BibleVerse bibleVerse = bibleVerseParser.parse(line);
             bibleVerses.add(bibleVerse);
 
             if (bibleVerses.size() == BATCH_SIZE) {

@@ -2,6 +2,7 @@ package com.bible_canvas.biblecanvas.init.bible;
 
 import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import com.bible_canvas.biblecanvas.init.util.BibleVerseParser;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,9 @@ import java.nio.file.Paths;
 /**
  * bible_utf8.txt 를 읽음
  */
-@Component
 @Slf4j
+@RequiredArgsConstructor
+@Component
 public class BibleReader {
 
     public String readBibleTextFile(String biblePath) {
@@ -36,14 +38,5 @@ public class BibleReader {
             e.printStackTrace(); // 에러 처리
         }
         return text.toString();
-    }
-
-    public BibleVerse parseLine(String line) {
-        BibleVerse bibleVerse = BibleVerseParser.parse(line);
-
-        log.info("책 제목: {} / 장: {} / 절: {} / 소제목: {} / 본문: {}",
-                bibleVerse.getShortenTitle(), bibleVerse.getChapter(), bibleVerse.getVerse(), bibleVerse.getShortenTitle(), bibleVerse.getContent());
-
-        return bibleVerse;
     }
 }

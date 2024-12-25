@@ -1,17 +1,26 @@
 package com.bible_canvas.biblecanvas.init.util;
 
+import com.bible_canvas.biblecanvas.bible.entity.BibleTitle;
 import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
+import com.bible_canvas.biblecanvas.bible.service.BibleTitleService;
 import com.bible_canvas.biblecanvas.init.exception.InvalidParseException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
+@RequiredArgsConstructor
+@Component
 public class BibleVerseParser {
+
+    private final BibleTitleService bibleTitleService;
+
     private static final String REGEX = "^(\\S+?)(\\d+):(\\d+)\\s*(.*)$";
 
-    public static BibleVerse parse(String line) {
+    public BibleVerse parse(String line) {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(line);
 
@@ -34,9 +43,12 @@ public class BibleVerseParser {
                         + " "
                         + rawContent.substring(subtitleEnd + 1).trim();
             }
+            BibleTitle bibleTitle = bibleTitleService.findByShortenTitle(shortenTitle);
+
+            log.info("책 제목: {} / 장: {} / 절: {} / 소제목: {} / 본문: {}", bibleTitle.getTitle(), chapter, verse, subtitle, content);
 
             return BibleVerse.builder()
-                    .shortenTitle(shortenTitle)
+                    .bibleTitle(bibleTitle)
                     .chapter(chapter)
                     .verse(verse)
                     .subtitle(subtitle)
