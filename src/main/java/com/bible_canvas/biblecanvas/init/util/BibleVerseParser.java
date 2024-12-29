@@ -45,7 +45,7 @@ public class BibleVerseParser {
             }
             BibleTitle bibleTitle = bibleTitleService.findByShortenTitle(shortenTitle);
 
-            log.info("책 제목: {} / 장: {} / 절: {} / 소제목: {} / 본문: {}", bibleTitle.getTitle(), chapter, verse, subtitle, content);
+//            log.info("책 제목: {} / 장: {} / 절: {} / 소제목: {} / 본문: {}", bibleTitle.getTitle(), chapter, verse, subtitle, content);
 
             return BibleVerse.builder()
                     .bibleTitle(bibleTitle)
