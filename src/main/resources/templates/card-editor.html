@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Bible Card</title>
     <link href="/css/bootstrap.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cute+Font&family=Diphylleia&family=Do+Hyeon&family=Dongle&family=East+Sea+Dokdo&family=Gaegu&family=Gamja+Flower&family=Gowun+Batang&family=Gowun+Dodum&family=Grandiflora+One&family=Hahmlet:wght@100..900&family=Hi+Melody&family=IBM+Plex+Sans+KR&family=Jua&family=Nanum+Brush+Script&family=Nanum+Gothic+Coding&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR:wght@200..900&family=Stylish&family=Sunflower:wght@300&display=swap"
+          rel="stylesheet">
 </head>
 <body>
 <div class="container my-5">
@@ -21,9 +25,7 @@
 
         <!-- Fabric.js Canvas -->
         <div class="col-sm-12 col-md-8">
-            <div class="border" style="width: 100%; height: 500px;">
-                <canvas id="fabric-canvas" width="800" height="500"></canvas>
-            </div>
+            <canvas id="fabric-canvas" class="border" width="800" height="500"></canvas>
         </div>
         <!-- Editor Sidebar -->
         <div class="col-sm-12 col-md-4 mb-4">
@@ -35,9 +37,7 @@
                 <div class="mb-3">
                     <label for="font-family" class="form-label">Font Family</label>
                     <select id="font-family" class="form-select">
-                        <option value="Arial">Arial</option>
-                        <option value="Georgia">Georgia</option>
-                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Noto Sans KR" selected>Noto Sans KR</option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -45,8 +45,8 @@
                     <input type="range" id="font-size" class="form-range" min="10" max="72" value="24">
                 </div>
             </form>
-            <div class="mb-3">
-                <button type="button" id="place-init" class="btn btn-outline-dark">위치 초기화</button>
+            <div class="mb-3 d-flex justify-content-end mb-3">
+                <button type="button" id="init" class="btn btn-outline-dark">초기화</button>
             </div>
         </div>
         <input type="hidden" name="content" th:value="${bibleVerse.getContent()}">
@@ -58,5 +58,46 @@
 <script src="/js/bootstrap.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fabric@latest/dist/index.min.js"></script>
 <script src="/js/card-editor.js"></script>
+<script>
+    // 폰트 리스트
+    const fonts = [
+        "Black Han Sans",
+        "Cute Font",
+        "Diphylleia",
+        "Do Hyeon",
+        "Dongle",
+        "East Sea Dokdo",
+        "Gaegu",
+        "Gamja Flower",
+        "Gowun Batang",
+        "Gowun Dodum",
+        "Grandiflora One",
+        "Hahmlet",
+        "Hi Melody",
+        "IBM Plex Sans KR",
+        "Jua",
+        "Nanum Brush Script",
+        "Nanum Gothic Coding",
+        "Nanum Pen Script",
+        "Noto Sans KR",
+        "Noto Serif KR",
+        "Stylish",
+        "Sunflower"
+    ];
+
+    // <select> 요소 가져오기
+    const fontSelect = document.getElementById("font-family");
+
+    // 옵션 추가
+    fonts.forEach(font => {
+        // 기본 폰트는 이미 추가되었으므로 건너뜀
+        if (font === "Noto Sans KR") return;
+        const option = document.createElement("option");
+        option.value = font;
+        option.textContent = font;
+        option.style.fontFamily = font; // 각 옵션을 해당 폰트로 스타일링
+        fontSelect.appendChild(option);
+    });
+</script>
 </body>
 </html>

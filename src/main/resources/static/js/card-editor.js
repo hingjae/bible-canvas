@@ -12,8 +12,81 @@ $(document).ready(function () {
         chapterVerse: { left: 100, top: 400 }  // 예시로 ChapterVerse의 초기 위치
     };
 
-    // 위치 초기화 버튼 클릭 이벤트
-    $('#place-init').on('click', function () {
+    // Hidden input values 가져오기
+    const verseText = $('input[name="content"]').val() || 'Enter your Bible verse here';
+    const titleChapterVerse = $('input[name="titleChapterVerse"]').val() || 'Book Chapter:Verse';
+
+    // 말씀 텍스트 추가 함수
+    function addBibleVerse(verse) {
+        const bibleVerse = new fabric.Textbox(verse, {
+            left: 100,
+            fontSize: 24,
+            fill: '#000000',
+            fontFamily: 'Noto Sans KR',
+            width: 800,
+            editable: true,
+            textAlign: 'center', // 수평 중앙 정렬
+        });
+        // 수직 중앙 정렬
+        // 텍스트 박스를 캔버스의 중앙에 배치
+        bibleVerse.left = (canvas.getWidth() - bibleVerse.width) / 2; // 수평 중앙
+        bibleVerse.top = (canvas.getHeight() - bibleVerse.height) / 2; // 수직 중앙
+        initialPositions.bibleVerse.left = bibleVerse.left;
+        initialPositions.bibleVerse.top = bibleVerse.top;
+
+        console.log(bibleVerse.height);
+        canvas.add(bibleVerse);
+
+        bibleVerse.on('selected', function () {
+            selectedTextbox = bibleVerse;
+            updateEditorControls(selectedTextbox); // 선택된 텍스트 박스에 맞춰 편집기 컨트롤 업데이트
+        });
+
+        bibleVerse.on('moving', function () {
+            showGuides(bibleVerse);
+        });
+        canvas.renderAll();
+    }
+
+    // 말씀 장 절 추가 함수
+    function addChapterAndVerse(titleChapterVerse) {
+        const chapterAndVerse = new fabric.Textbox(titleChapterVerse, {
+            left: 100,
+            top: canvas.height - 100, // 아래쪽에 위치
+            fontSize: 20,
+            fill: '#555555',
+            fontFamily: 'Noto Sans KR',
+            width: 800,
+            editable: true,
+            textAlign: 'center', // 수평 중앙 정렬
+        });
+        chapterAndVerse.left = (canvas.getWidth() - chapterAndVerse.width) / 2; // 수평 중앙
+        chapterAndVerse.top = (canvas.getHeight() - chapterAndVerse.height) / 1.15; // 수직 중앙
+        initialPositions.chapterVerse.left = chapterAndVerse.left;
+        initialPositions.chapterVerse.top = chapterAndVerse.top;
+        canvas.add(chapterAndVerse);
+
+        chapterAndVerse.on('selected', function () {
+            selectedTextbox = chapterAndVerse;
+            updateEditorControls(selectedTextbox); // 선택된 텍스트 박스에 맞춰 편집기 컨트롤 업데이트
+        });
+
+        chapterAndVerse.on('moving', function () {
+            showGuides(chapterAndVerse);
+        });
+        canvas.renderAll();
+    }
+
+    // 캔버스에 말씀과 장 절 추가
+    if (verseText && titleChapterVerse) {
+        addBibleVerse(verseText);
+        addChapterAndVerse(titleChapterVerse);
+    } else {
+        console.error("Bible verse content or titleChapterVerse is missing!");
+    }
+
+    // 카드 에디터 초기화.
+    $('#init').on('click', function () {
         // 선택된 텍스트 박스 해제
         canvas.discardActiveObject();  // 선택된 객체를 해제
 
@@ -38,69 +111,6 @@ $(document).ready(function () {
         canvas.renderAll();  // 캔버스를 다시 렌더링하여 변경 사항 반영
     });
 
-    // 말씀 텍스트 추가 함수
-    function addBibleVerse(verse) {
-        const bibleVerse = new fabric.Textbox(verse, {
-            left: 100,
-            fontSize: 24,
-            fill: '#000000',
-            fontFamily: 'Arial',
-            width: 600,
-            editable: true,
-            textAlign: 'center', // 수평 중앙 정렬
-        });
-        // 수직 중앙 정렬
-        const topPosition = (canvas.height - bibleVerse.height) / 2;
-        bibleVerse.top = topPosition;
-        console.log(canvas.height - 100);
-        canvas.add(bibleVerse);
-
-        bibleVerse.on('selected', function () {
-            selectedTextbox = bibleVerse;
-            updateEditorControls(selectedTextbox); // 선택된 텍스트 박스에 맞춰 편집기 컨트롤 업데이트
-        });
-
-        bibleVerse.on('moving', function () {
-            showGuides(bibleVerse);
-        });
-    }
-
-    // 말씀 장 절 추가 함수
-    function addChapterAndVerse(titleChapterVerse) {
-        const chapterAndVerse = new fabric.Textbox(titleChapterVerse, {
-            left: 100,
-            top: canvas.height - 100, // 아래쪽에 위치
-            fontSize: 20,
-            fill: '#555555',
-            fontFamily: 'Arial',
-            width: 600,
-            editable: true,
-            textAlign: 'center', // 수평 중앙 정렬
-        });
-        canvas.add(chapterAndVerse);
-
-        chapterAndVerse.on('selected', function () {
-            selectedTextbox = chapterAndVerse;
-            updateEditorControls(selectedTextbox); // 선택된 텍스트 박스에 맞춰 편집기 컨트롤 업데이트
-        });
-
-        chapterAndVerse.on('moving', function () {
-            showGuides(chapterAndVerse);
-        });
-    }
-
-    // Hidden input values 가져오기
-    const verseText = $('input[name="content"]').val() || 'Enter your Bible verse here';
-    const titleChapterVerse = $('input[name="titleChapterVerse"]').val() || 'Book Chapter:Verse';
-
-    // 캔버스에 말씀과 장 절 추가
-    if (verseText && titleChapterVerse) {
-        addBibleVerse(verseText);
-        addChapterAndVerse(titleChapterVerse);
-    } else {
-        console.error("Bible verse content or titleChapterVerse is missing!");
-    }
-
     // 폰트 색상 변경 이벤트
     $('#font-color').on('input', function () {
         if (selectedTextbox) {
@@ -123,24 +133,6 @@ $(document).ready(function () {
             selectedTextbox.set('fontFamily', $(this).val());
             canvas.renderAll();
         }
-    });
-
-    // 텍스트 중앙 정렬 함수
-    function centerText() {
-        if (selectedTextbox) {
-            // 수평 중앙 정렬
-            selectedTextbox.set('left', (canvas.width - selectedTextbox.width) / 2);
-
-            // 수직 중앙 정렬
-            selectedTextbox.set('top', (canvas.height - selectedTextbox.height) / 2);
-
-            canvas.renderAll();
-        }
-    }
-
-    // 중앙 정렬 버튼을 눌렀을 때
-    $('#center-text').on('click', function () {
-        centerText();
     });
 
     // Update the editor controls when a textbox is selected
