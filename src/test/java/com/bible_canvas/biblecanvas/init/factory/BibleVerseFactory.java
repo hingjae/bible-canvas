@@ -16,6 +16,16 @@ public class BibleVerseFactory {
                 .build();
     }
 
+    public static BibleVerse of(BibleTitle bibleTitle, int chapter, int verse, String subTitle, String content) {
+        return BibleVerse.builder()
+                .bibleTitle(bibleTitle)
+                .chapter(chapter)
+                .verse(verse)
+                .subtitle(subTitle)
+                .content(content)
+                .build();
+    }
+
     public static List<BibleVerse> mockBibleVerses() {
 
         // TODO BibleTitle 조회해서 넣는게 필요함.

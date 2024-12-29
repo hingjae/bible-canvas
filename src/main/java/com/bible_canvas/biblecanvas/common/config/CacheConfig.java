@@ -21,12 +21,11 @@ public class CacheConfig {
 
     @Bean
     public CacheManager cacheManager() {
-        javax.cache.CacheManager cacheManager = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider")
-                .getCacheManager();
+        javax.cache.CacheManager cacheManager = Caching.getCachingProvider("org.ehcache.jsr107.EhcacheCachingProvider").getCacheManager();
 
-        CacheConfiguration<String, BibleTitle> cacheConfig = createCacheConfig(String.class, BibleTitle.class, 10, Duration.ofMinutes(5));
+        CacheConfiguration<String, BibleTitle> bibleTitleCacheConfig = createCacheConfig(String.class, BibleTitle.class, 10, Duration.ofMinutes(5));
 
-        createOrReplaceCache(cacheManager, "bibleTitleCache", cacheConfig);
+        createOrReplaceCache(cacheManager, "bibleTitleCache", bibleTitleCacheConfig);
 
         return new JCacheCacheManager(cacheManager);
     }
