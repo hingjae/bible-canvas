@@ -45,7 +45,7 @@
         <div th:if="${!results.isEmpty()}" class="list-group">
             <a th:each="verse : ${results.content}"
                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center clickable-li"
-               th:href="@{/bible-verses/{id} (id=${verse.id})}">
+               th:href="@{/bible-verse/{id} (id=${verse.id})}">
                 <div class="d-flex flex-column">
                     <span class="font-weight-bold text-dark highlightable-keyword"
                           th:text="${verse.title} + ' ' + ${verse.chapter} + ':' + ${verse.verse}"></span>
