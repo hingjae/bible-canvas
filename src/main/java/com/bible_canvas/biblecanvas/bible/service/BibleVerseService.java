@@ -1,10 +1,12 @@
 package com.bible_canvas.biblecanvas.bible.service;
 
+import com.bible_canvas.biblecanvas.bible.controller.response.BibleVerseDetailResponse;
 import com.bible_canvas.biblecanvas.bible.entity.BibleVerse;
 import com.bible_canvas.biblecanvas.bible.controller.response.BibleVerseResponse;
 import com.bible_canvas.biblecanvas.bible.repository.BibleVerseRepository;
 import com.bible_canvas.biblecanvas.init.bible.BibleReader;
 import com.bible_canvas.biblecanvas.init.util.BibleVerseParser;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,5 +47,11 @@ public class BibleVerseService {
     public Page<BibleVerseResponse> searchByContent(String keyword, Pageable pageable) {
         return bibleVerseRepository.findByContentContaining(keyword, pageable)
                 .map(BibleVerseResponse::new);
+    }
+
+    public BibleVerseDetailResponse searchById(Long id) {
+        return bibleVerseRepository.findByIdWithBibleTitle(id)
+                .map(BibleVerseDetailResponse::new)
+                .orElseThrow(EntityNotFoundException::new);
     }
 }

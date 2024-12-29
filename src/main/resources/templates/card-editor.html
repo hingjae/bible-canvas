@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Bible Card</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-5">
+    <!-- Header -->
+    <header class="text-center mb-4">
+        <a href="/" class="text-reset text-decoration-none">
+            <h1 class="fw-bold">Bible Canvas</h1>
+        </a>
+        <p class="text-muted">Customize your Bible Verse Card</p>
+    </header>
+
+    <!-- Card Editor -->
+    <div class="row">
+
+        <!-- Fabric.js Canvas -->
+        <div class="col-sm-12 col-md-8">
+            <div class="border" style="width: 100%; height: 500px;">
+                <canvas id="fabric-canvas" width="800" height="500"></canvas>
+            </div>
+        </div>
+        <!-- Editor Sidebar -->
+        <div class="col-sm-12 col-md-4 mb-4">
+            <form>
+                <div class="mb-3">
+                    <label for="font-color" class="form-label">Font Color</label>
+                    <input type="color" id="font-color" class="form-control" value="#000000">
+                </div>
+                <div class="mb-3">
+                    <label for="font-family" class="form-label">Font Family</label>
+                    <select id="font-family" class="form-select">
+                        <option value="Arial">Arial</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="font-size" class="form-label">Font Size</label>
+                    <input type="range" id="font-size" class="form-range" min="10" max="72" value="24">
+                </div>
+            </form>
+            <div class="mb-3">
+                <button type="button" id="place-init" class="btn btn-outline-dark">위치 초기화</button>
+            </div>
+        </div>
+        <input type="hidden" name="content" th:value="${bibleVerse.getContent()}">
+        <input type="hidden" name="titleChapterVerse" th:value="${bibleVerse.getTitleChapterVerse()}">
+    </div>
+</div>
+
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fabric@latest/dist/index.min.js"></script>
+<script src="/js/card-editor.js"></script>
+</body>
+</html>

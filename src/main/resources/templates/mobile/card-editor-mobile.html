@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Card Editor</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container my-4">
+    <!-- Toolbar -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3">
+        <div class="d-flex flex-wrap gap-2">
+            <input type="color" id="font-color" class="form-control form-control-color" title="Font Color">
+            <select id="font-family" class="form-select" title="Font Family">
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Verdana">Verdana</option>
+            </select>
+            <input type="file" id="background-upload" class="form-control" accept="image/*" title="Upload Background">
+        </div>
+        <button id="download-btn" class="btn btn-dark">Download</button>
+    </div>
+
+    <!-- Canvas -->
+    <div class="ratio ratio-4x3 border bg-white rounded shadow">
+        <canvas id="fabric-canvas"></canvas>
+    </div>
+</div>
+
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fabric@latest/dist/index.min.js"></script>
+<script src="/js/mobile/card-editor-mobile.js"></script>
+</body>
+</html>
